@@ -18,9 +18,13 @@ from tkinter import mainloop
 root = Tk()
 guessedShape = StringVar()
 actualShape = StringVar()
+result = StringVar()
+amountCorrectVal = StringVar()
+amountOfTestsVal = StringVar()
+accuracy = StringVar()
 
-guessShapeLabel = Label(root, textvariable=guessedShape)
-verifyShapeLabel = Label(root, textvariable=actualShape)
+amountCorrect = 0
+amountOfTests = 0
 
 train_data_dir = 'train'
 validation_data_dir = 'validation'
@@ -36,6 +40,7 @@ batch_size = 30
 PATH = "C:/Users/awmar/Desktop/SeniorProject/"
 FILETYPES = [("jpg files", "*.jpg")]
 TEMPDIR = "tempDir/"
+
 
 def startGUI():
     if K.image_data_format() == 'channels_first':
@@ -99,22 +104,34 @@ def startGUI():
 
     root.title("Shape Learner")
     root.geometry("250x150")
-    openFileButton = Button(root, text="Open File", command=lambda : openFiles(model, train_generator))
+    openFileButton = Button(root, text="Open File", command=lambda: openFiles(model, train_generator))
     openFileButton.pack()
+
+    verifyShapeLabel = Label(root, textvariable=actualShape)
+    guessShapeLabel = Label(root, textvariable=guessedShape)
+    resultLabel = Label(root, textvariable=result)
+    amountCorrectLabel = Label(root, textvariable=amountCorrectVal)
+    amountOfTestsLabel = Label(root, textvariable=amountOfTestsVal)
+    accuracyLabel = Label(root, textvariable=accuracy)
+
     verifyShapeLabel.pack()
     guessShapeLabel.pack()
+    resultLabel.pack()
+    amountCorrectLabel.pack()
+    amountOfTestsLabel.pack()
+    accuracyLabel.pack()
 
     mainloop()
 
 
 def openFiles(model, train_generator):
     # open the UI for choosing and picking a picture
-    fileName = askopenfile(filetypes = FILETYPES)
+    fileName = askopenfile(filetypes=FILETYPES)
     lastIndex = fileName.name.rfind('/') + 1
     fileName = fileName.name[lastIndex:]
-    print (fileName)
     shutil.move(PATH + test_data_dir + fileName, PATH + test_data_dir + TEMPDIR + fileName)
-    actualShape.set("Actual Shape: " + verifyShape(fileName))
+    actualShapeVerified = verifyShape(fileName)
+    actualShape.set("Actual Shape: " + actualShapeVerified)
 
     test_datagen = ImageDataGenerator(rescale=1./255)
 
@@ -126,15 +143,27 @@ def openFiles(model, train_generator):
         shuffle=False,
         seed=42)
 
-    pred=model.predict_generator(test_generator, steps=(test_generator.n//test_generator.batch_size), verbose=1)
-    predicted_class_indices=np.argmax(pred)
+    pred = model.predict_generator(test_generator, steps=(test_generator.n//test_generator.batch_size), verbose=1)
+    predicted_class_indices = np.argmax(pred)
 
     labels = (train_generator.class_indices)
-    labels = dict((v,k) for k,v in labels.items())
+    labels = dict((v, k) for k, v in labels.items())
 
     predictedShape = labels[predicted_class_indices]
-    
+
+    if(predictedShape == actualShapeVerified):
+        global amountCorrect
+        result.set("CORRECT")
+        amountCorrect = amountCorrect + 1
+        amountCorrectVal.set("Amount Correct: " + str(amountCorrect))
+        incrementTests()
+    else:
+        result.set("WRONG")
+        incrementTests()
+
     guessedShape.set("Guessed Shape: " + predictedShape)
+
+    accuracy.set("Accuracy: " + str(round(amountCorrect/amountOfTests, 4)))
 
     shutil.move(PATH + test_data_dir + TEMPDIR + fileName, PATH + test_data_dir + fileName)
 
@@ -152,10 +181,12 @@ def verifyShape(fileOpened):
         shape = "triangle"
     return shape
 
+
+def incrementTests():
+    global amountOfTests
+    amountOfTests = amountOfTests + 1
+    amountOfTestsVal.set("Amount Tested: " + str(amountOfTests))
+
+
 # open up our GUI so we can upload an image
 startGUI()
-
-
-
-
-    
