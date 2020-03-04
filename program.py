@@ -37,7 +37,9 @@ epochs = 30
 batch_size = 30
 
 # path to folder with images
-PATH = "C:/Users/awmar/Desktop/SeniorProject/"
+dir_path = os.path.dirname(os.path.realpath(__file__))
+dir_path = dir_path + "/"
+print(dir_path + "/")
 FILETYPES = [("jpg files", "*.jpg")]
 TEMPDIR = "tempDir/"
 
@@ -129,7 +131,7 @@ def openFiles(model, train_generator):
     fileName = askopenfile(filetypes=FILETYPES)
     lastIndex = fileName.name.rfind('/') + 1
     fileName = fileName.name[lastIndex:]
-    shutil.move(PATH + test_data_dir + fileName, PATH + test_data_dir + TEMPDIR + fileName)
+    shutil.move(dir_path + test_data_dir + fileName, dir_path + test_data_dir + TEMPDIR + fileName)
     actualShapeVerified = verifyShape(fileName)
     actualShape.set("Actual Shape: " + actualShapeVerified)
 
@@ -165,7 +167,7 @@ def openFiles(model, train_generator):
 
     accuracy.set("Accuracy: " + str(round(amountCorrect/amountOfTests, 4)))
 
-    shutil.move(PATH + test_data_dir + TEMPDIR + fileName, PATH + test_data_dir + fileName)
+    shutil.move(dir_path + test_data_dir + TEMPDIR + fileName, dir_path + test_data_dir + fileName)
 
 
 def verifyShape(fileOpened):
