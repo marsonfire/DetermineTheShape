@@ -1,0 +1,94 @@
+=SUM(C2:C40)/39
+
+img_width, img_height = 28, 28
+nb_train_samples = 300
+nb_validation_samples = 30
+epochs = 50
+batch_size = 10
+0.358974358974359
+
+img_width, img_height = 28, 28
+nb_train_samples = 300
+nb_validation_samples = 30
+epochs = 50
+batch_size = 30
+0.461538461538462
+
+img_width, img_height = 100, 100
+nb_train_samples = 300
+nb_validation_samples = 30
+epochs = 50
+batch_size = 30
+ERROR - said all was circles and loss was NAN, so something was wrong
+
+img_width, img_height = 50, 50
+nb_train_samples = 300
+nb_validation_samples = 30
+epochs = 50
+batch_size = 30
+SAME ERROR AS ABOVE
+
+img_width, img_height = 50, 50
+nb_train_samples = 300
+nb_validation_samples = 30
+epochs = 30
+batch_size = 30
+0.333333333333333
+
+img_width, img_height = 28, 28
+nb_train_samples = 300
+nb_validation_samples = 30
+epochs = 10
+batch_size = 30
+0.41025641025641
+
+img_width, img_height = 28, 28
+nb_train_samples = 300
+nb_validation_samples = 30
+epochs = 10
+batch_size = 10
+0.384615384615385
+
+-- more validation images
+img_width, img_height = 28, 28
+nb_train_samples = 300
+nb_validation_samples = 180
+epochs = 50
+batch_size = 10
+0.230769230769231
+SAME
+0.307692307692308
+
+- less validation
+- test gen is now more like the tutorial
+img_width, img_height = 28, 28
+nb_train_samples = 300
+nb_validation_samples = 30
+epochs = 50
+batch_size = 30
+0.871794871794872
+0.948717948717949
+0.846153846153846
+
+- getting rid of test_gens model stuff
+img_width, img_height = 28, 28
+nb_train_samples = 300
+nb_validation_samples = 30
+epochs = 15
+batch_size = 30
+0.743589743589744
+0.82051282051282
+
+img_width, img_height = 28, 28
+nb_train_samples = 300
+nb_validation_samples = 30
+epochs = 20
+batch_size = 30
+0.871794871794872
+0.82051282051282
+0.897435897435897
+0.8974358974358975
+
+=SUM(C2:C40)/39
+
+
