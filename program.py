@@ -4,6 +4,7 @@ from tensorflow.keras.layers import Conv2D, MaxPooling2D
 from tensorflow.keras.layers import Activation, Dropout, Flatten, Dense
 from tensorflow.keras import backend as K
 from tensorflow.keras.models import load_model
+import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import os
@@ -32,7 +33,7 @@ train_data_dir = 'train'
 validation_data_dir = 'validation'
 test_data_dir = 'test/testimages/'
 
-img_width, img_height = 28, 28
+img_width, img_height = 56, 56
 nb_train_samples = 300
 nb_validation_samples = 60
 epochs = 20
@@ -88,8 +89,7 @@ def startGUI():
     # this is the what we will use for training
     train_datagen = ImageDataGenerator(
         rescale=1. / 255,
-        shear_range=0.2,
-        zoom_range=0.2,
+        shear_range=0.5,
         horizontal_flip=True)
 
     # this is what we will use for validating when training
@@ -328,7 +328,6 @@ def retrainModel(train_generator, validation_generator):
     model.save('savedModel.h5')
 
     return model
-
 
 # open up our GUI so we can upload an image
 startGUI()
