@@ -4,6 +4,7 @@ from tensorflow.keras.layers import Conv2D, MaxPooling2D
 from tensorflow.keras.layers import Activation, Dropout, Flatten, Dense
 from tensorflow.keras import backend as K
 from tensorflow.keras.models import load_model
+import tensorflow as tf
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
@@ -34,10 +35,10 @@ validation_data_dir = 'validation'
 test_data_dir = 'test/testimages/'
 
 img_width, img_height = 56, 56
-nb_train_samples = 300
-nb_validation_samples = 60
-epochs = 20
-batch_size = 30
+nb_train_samples = 400
+nb_validation_samples = 80
+epochs = 16
+batch_size = 10
 
 # path to folder with images
 dir_path = os.path.dirname(os.path.realpath(__file__))
@@ -75,8 +76,8 @@ def startGUI():
         model.add(Flatten())
         model.add(Dense(64))
         model.add(Activation('relu'))
-        model.add(Dropout(0.5))
-        model.add(Dense(3))
+        model.add(Dropout(0.2))
+        model.add(Dense(4))
         model.add(Activation('sigmoid'))
 
         model.compile(loss='categorical_crossentropy',
@@ -249,6 +250,9 @@ def openFolder(train_generator):
         elif(index < 30):
             if(predicted_class_indices == 2):
                 amountCorrect = amountCorrect + 1
+        elif(index < 40):
+            if(predicted_class_indices == 3):
+                amountCorrect = amountCorrect + 1
         index = index + 1
 
     amountCorrectVal.set("Amount Correct: " + str(amountCorrect))
@@ -269,6 +273,8 @@ def verifyShape(fileOpened):
         shape = "rectangle"
     elif ("tri" in fileName):
         shape = "triangle"
+    elif("pent" in fileName):
+        shape = "pentagon"
     return shape
 
 
@@ -293,7 +299,7 @@ def retrainModel(train_generator, validation_generator):
     else:
         input_shape = (img_width, img_height, 3)
 
-    # this builds up the model that we use and train on
+    #this builds up the model that we use and train on
     model = Sequential()
     model.add(Conv2D(32, (3, 3), input_shape=input_shape))
     model.add(Activation('relu'))
@@ -310,8 +316,8 @@ def retrainModel(train_generator, validation_generator):
     model.add(Flatten())
     model.add(Dense(64))
     model.add(Activation('relu'))
-    model.add(Dropout(0.5))
-    model.add(Dense(3))
+    model.add(Dropout(0.2))
+    model.add(Dense(4))
     model.add(Activation('sigmoid'))
 
     model.compile(loss='categorical_crossentropy',
