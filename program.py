@@ -37,8 +37,8 @@ test_data_dir = 'test/testimages/'
 img_width, img_height = 56, 56
 nb_train_samples = 400
 nb_validation_samples = 80
-epochs = 16
-batch_size = 10
+epochs = 30
+batch_size = 50
 
 # path to folder with images
 dir_path = os.path.dirname(os.path.realpath(__file__))
@@ -101,6 +101,7 @@ def startGUI():
         train_data_dir,
         target_size=(img_width, img_height),
         batch_size=batch_size,
+        shuffle=True,
         class_mode='categorical')
 
     # loading in our validation images in the correct format
